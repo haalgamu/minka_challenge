@@ -3,6 +3,17 @@ networks:
   default:
     name: zef-network
 services:
+  zef_postgresql:
+    image: postgres:14.5-alpine3.16
+    restart: always
+    ports:
+      - 5432:5432
+    environment:
+      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_USER=postgres
+    volumes:
+      - ./dumps/init_database.sql:/docker-entrypoint-initdb.d/init_database.sql
+      - ./postgres-data:/var/lib/postgresql/data
   zef:
     build: .
     ports:
@@ -12,11 +23,11 @@ services:
       - DB_USER=postgres
       - DB_PASSWORD=postgres
       - DB_NAME=zef
-  zef_postgresql:
-    image: postgres:14.5-alpine3.16
-    restart: always
-    environment:
-      - POSTGRES_PASSWORD=postgres
-      - POSTGRES_USER=postgres
-    volumes:
-      - ./zef/volumes/postgres-data
+    healthcheck:
+        test: ["CMD", "curl", "-f", "http://localhost:3000"]
+        interval: 30s
+        timeout: 10s
+        retries: 5
+
+volumes:
+  postgres-data:
