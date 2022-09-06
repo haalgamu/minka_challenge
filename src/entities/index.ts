@@ -1,6 +1,4 @@
-import { User } from "./user.entity"
+import { User } from './user.entity';
 
-export {User};
-export default [
-    User
-];
+export { User };
+export default [User];
