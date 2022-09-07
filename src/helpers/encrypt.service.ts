@@ -12,6 +12,6 @@ export class Encrypter {
   }
 
   compare(str, hash): Promise<boolean> {
-    return this.compare(str, hash);
+    return bcrypt.compare(str, hash);
   }
 }
