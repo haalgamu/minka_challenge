@@ -10,5 +10,6 @@ RUN npm install
 
 COPY . .
 RUN npm run build
+RUN npm run migration:run
 CMD ["npm", "run", "start:prod"]
 EXPOSE 3000

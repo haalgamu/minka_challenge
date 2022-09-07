@@ -1,6 +1,4 @@
-import {
-  Injectable,
-} from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import { User } from '../entities';
 import { UsersService } from 'src/users/users.service';
@@ -38,7 +36,7 @@ export class AuthService {
 
   async login(user: User): Promise<any> {
     return {
-      token: await this.createToken(user)
-    }
+      token: await this.createToken(user),
+    };
   }
 }

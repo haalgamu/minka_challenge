@@ -1,12 +1,16 @@
-import { Entity, Column, PrimaryGeneratedColumn, Index } from 'typeorm';
+import { Entity, Column, PrimaryGeneratedColumn, OneToMany } from 'typeorm';
+import { Balance } from './balance.entity';
+import { Currency } from './currency.entity';
+import { Movement } from './movements.entity';
 
-@Entity()
+@Entity({
+  name: 'users',
+})
 export class User {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @Column()
-  @Index({ unique: true })
+  @Column({ unique: true })
   email: string;
 
   @Column()
@@ -14,4 +18,19 @@ export class User {
 
   @Column()
   fullName: string;
+
+  @Column({
+    nullable: true,
+  })
+  isOwner: boolean;
+
+  //Relations
+  @OneToMany(() => Currency, (currency) => currency.user)
+  currencies: Currency[];
+
+  @OneToMany(() => Movement, (movement) => movement.user)
+  movements: Movement[];
+
+  @OneToMany(() => Balance, (balance) => balance.user)
+  balances: Balance[];
 }
