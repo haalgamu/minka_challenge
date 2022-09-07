@@ -7,6 +7,7 @@ import {
   OneToOne,
   JoinColumn,
 } from 'typeorm';
+import { ApiProperty } from '@nestjs/swagger';
 import { Project } from './project.entity';
 import { User } from './user.entity';
 
@@ -14,6 +15,7 @@ import { User } from './user.entity';
   name: 'currencies',
 })
 export class Currency {
+  @ApiProperty()
   @PrimaryGeneratedColumn()
   id: number;
 

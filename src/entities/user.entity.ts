@@ -1,4 +1,5 @@
 import { Entity, Column, PrimaryGeneratedColumn, OneToMany } from 'typeorm';
+import { ApiProperty } from '@nestjs/swagger';
 import { Balance } from './balance.entity';
 import { Currency } from './currency.entity';
 import { Movement } from './movements.entity';
@@ -7,6 +8,7 @@ import { Movement } from './movements.entity';
   name: 'users',
 })
 export class User {
+  @ApiProperty()
   @PrimaryGeneratedColumn()
   id: number;
 
@@ -20,7 +22,7 @@ export class User {
   fullName: string;
 
   @Column({
-    nullable: true,
+    nullable: false,
   })
   isOwner: boolean;
 

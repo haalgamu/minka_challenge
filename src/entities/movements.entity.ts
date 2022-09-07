@@ -7,6 +7,7 @@ import {
   OneToOne,
   JoinColumn,
 } from 'typeorm';
+import { ApiProperty } from '@nestjs/swagger';
 import { Project } from './project.entity';
 import { User } from './user.entity';
 
@@ -19,6 +20,7 @@ export enum OPERATIONS {
   name: 'movements',
 })
 export class Movement {
+  @ApiProperty()
   @PrimaryGeneratedColumn()
   id: number;
 
