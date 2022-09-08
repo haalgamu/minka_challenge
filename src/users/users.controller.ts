@@ -1,5 +1,6 @@
 import {
   Controller,
+  Request,
   Get,
   Post,
   Body,
@@ -7,6 +8,7 @@ import {
   Param,
   Delete,
   UseGuards,
+  ForbiddenException,
 } from '@nestjs/common';
 import { UsersService } from './users.service';
 import { CreateUserDto } from './dto/create-user.dto';
@@ -14,6 +16,7 @@ import { UpdateUserDto } from './dto/update-user.dto';
 import { User } from '../entities';
 import { AuthGuard } from '@nestjs/passport';
 import { ApiBearerAuth, ApiOperation } from '@nestjs/swagger';
+import { IsOwnerGuard } from '../auth/is-owner.guard';
 @ApiBearerAuth()
 @UseGuards(AuthGuard('jwt'))
 @Controller('users')
@@ -27,6 +30,7 @@ export class UsersController {
   }
 
   @Get()
+  @UseGuards(IsOwnerGuard)
   @ApiOperation({ summary: 'Get a list of users/members' })
   findAll(): Promise<User[]> {
     return this.usersService.findAll();
@@ -34,22 +38,26 @@ export class UsersController {
 
   @Get(':id')
   @ApiOperation({ summary: 'Get a user/member' })
-  findOne(@Param('id') id: string): Promise<User> {
+  findOne(@Request() request, @Param('id') id: string): Promise<User> {
+    if (request.user.id != id) throw new ForbiddenException();
     return this.usersService.findOne(+id);
   }
 
   @Patch(':id')
   @ApiOperation({ summary: 'Update a user/member' })
   update(
+    @Request() request,
     @Param('id') id: string,
     @Body() updateUserDto: UpdateUserDto,
   ): Promise<User> {
+    if (request.user.id != id) throw new ForbiddenException();
     return this.usersService.update(+id, updateUserDto);
   }
 
   @Delete(':id')
   @ApiOperation({ summary: 'Delete a user/member' })
-  remove(@Param('id') id: string): Promise<any> {
+  remove(@Request() request, @Param('id') id: string): Promise<any> {
+    if (request.user.id != id) throw new ForbiddenException();
     return this.usersService.remove(+id);
   }
 }
