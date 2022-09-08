@@ -5,6 +5,7 @@ import { CreateUserDto } from '../../users/dto/create-user.dto';
 import { RepositoryMock } from '../__mocks__/typeorm.mock';
 import { User } from '../../entities';
 import { HttpException, HttpStatus } from '@nestjs/common';
+import { getRepositoryToken } from '@nestjs/typeorm';
 
 jest.mock('typeorm', () => {
   const { DataSourceMock } = jest.requireActual('../__mocks__/typeorm.mock.ts');
@@ -31,10 +32,8 @@ describe('UsersService', () => {
         UsersService,
         Encrypter,
         {
-          provide: 'UserRepository',
-          useFactory: () => {
-            return RepositoryMock;
-          },
+          provide: getRepositoryToken(User),
+          useValue: RepositoryMock,
         },
       ],
     }).compile();

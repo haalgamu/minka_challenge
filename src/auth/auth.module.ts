@@ -7,7 +7,7 @@ import { Encrypter } from '../helpers/encrypt.service';
 import { UsersModule } from '../users/users.module';
 import { jwtConstants } from './constants';
 import { JwtStrategy } from './jwt.strategy';
-import { LocalStrategy } from './local.startegy';
+import { LocalStrategy } from './local.strategy';
 
 @Module({
   imports: [

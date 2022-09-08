@@ -1,19 +1,10 @@
 import { Test } from '@nestjs/testing';
 import { Encrypter } from '../../helpers/encrypt.service';
-import { TypeOrmModule } from '@nestjs/typeorm';
+import { getRepositoryToken } from '@nestjs/typeorm';
 import { UsersController } from '../../users/users.controller';
 import { UsersService } from '../../users/users.service';
 import { CreateUserDto } from '../../users/dto/create-user.dto';
 import { User } from '../../entities';
-
-jest.mock('typeorm', () => {
-  const { DataSourceMock } = jest.requireActual('../__mocks__/typeorm.mock.ts');
-  const actual = jest.requireActual('typeorm');
-  return {
-    ...actual,
-    DataSource: DataSourceMock,
-  };
-});
 
 describe('UsersController', () => {
   let usersController: UsersController;
@@ -33,7 +24,7 @@ describe('UsersController', () => {
         UsersService,
         Encrypter,
         {
-          provide: 'UserRepository',
+          provide: getRepositoryToken(User),
           useFactory: () => {
             return {};
           },
