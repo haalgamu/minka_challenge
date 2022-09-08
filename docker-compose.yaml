@@ -29,6 +29,15 @@ services:
         interval: 30s
         timeout: 10s
         retries: 5
+  zef_terraform:
+    image: hashicorp/terraform:1.2.9
+    volumes:
+      - ./infrastructure/main.tf:/infrastructure/main.tf
+      - ./terraform-data:/infrastructure
+    working_dir: /infrastructure
+    environment:
+      - AWS_ACCESS_KEY_ID=
+      - AWS_SECRET_ACCESS_KEY=
 
 volumes:
   postgres-data:
