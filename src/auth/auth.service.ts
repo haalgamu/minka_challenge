@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import { User } from '../entities';
-import { UsersService } from 'src/users/users.service';
+import { UsersService } from '../users/users.service';
 import { Encrypter } from '../helpers/encrypt.service';
 
 export interface LoginResponse {
