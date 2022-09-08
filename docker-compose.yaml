@@ -20,10 +20,13 @@ services:
     ports:
       - 3000:3000
     environment:
+      - APP_PORT=3000
       - DB_HOST=zef_postgresql
       - DB_USER=postgres
       - DB_PASSWORD=postgres
       - DB_NAME=zef
+      - JWT_SECRET_KEY=secret
+      - JWT_EXPIRES_IN=24h
     healthcheck:
         test: ["CMD", "curl", "-f", "http://localhost:3000"]
         interval: 30s

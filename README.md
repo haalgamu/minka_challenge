@@ -1,30 +1,29 @@
-<p align="center">
-  <a href="http://nestjs.com/" target="blank"><img src="https://nestjs.com/img/logo-small.svg" width="200" alt="Nest Logo" /></a>
-</p>
-
-[circleci-image]: https://img.shields.io/circleci/build/github/nestjs/nest/master?token=abc123def456
-[circleci-url]: https://circleci.com/gh/nestjs/nest
-
-  <p align="center">A progressive <a href="http://nodejs.org" target="_blank">Node.js</a> framework for building efficient and scalable server-side applications.</p>
-    <p align="center">
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/v/@nestjs/core.svg" alt="NPM Version" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/l/@nestjs/core.svg" alt="Package License" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/dm/@nestjs/common.svg" alt="NPM Downloads" /></a>
-<a href="https://circleci.com/gh/nestjs/nest" target="_blank"><img src="https://img.shields.io/circleci/build/github/nestjs/nest/master" alt="CircleCI" /></a>
-<a href="https://coveralls.io/github/nestjs/nest?branch=master" target="_blank"><img src="https://coveralls.io/repos/github/nestjs/nest/badge.svg?branch=master#9" alt="Coverage" /></a>
-<a href="https://discord.gg/G7Qnnhy" target="_blank"><img src="https://img.shields.io/badge/discord-online-brightgreen.svg" alt="Discord"/></a>
-<a href="https://opencollective.com/nest#backer" target="_blank"><img src="https://opencollective.com/nest/backers/badge.svg" alt="Backers on Open Collective" /></a>
-<a href="https://opencollective.com/nest#sponsor" target="_blank"><img src="https://opencollective.com/nest/sponsors/badge.svg" alt="Sponsors on Open Collective" /></a>
-  <a href="https://paypal.me/kamilmysliwiec" target="_blank"><img src="https://img.shields.io/badge/Donate-PayPal-ff3f59.svg"/></a>
-    <a href="https://opencollective.com/nest#sponsor"  target="_blank"><img src="https://img.shields.io/badge/Support%20us-Open%20Collective-41B883.svg" alt="Support us"></a>
-  <a href="https://twitter.com/nestframework" target="_blank"><img src="https://img.shields.io/twitter/follow/nestframework.svg?style=social&label=Follow"></a>
-</p>
-  <!--[![Backers on Open Collective](https://opencollective.com/nest/backers/badge.svg)](https://opencollective.com/nest#backer)
-  [![Sponsors on Open Collective](https://opencollective.com/nest/sponsors/badge.svg)](https://opencollective.com/nest#sponsor)-->
-
 ## Description
 
-[Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
+[ZEF](https://gist.github.com/zrumenjak/dfbd960482918a5ac0edf65c7453a14a) is a code challenge. The following technologies were used:
+* NodeJS v16.17
+* NestJS v9.0
+* PostgreSQL v14.5
+* AWS SQS
+* Docker v20.10
+* Terraform v1.2.9 
+
+The directories are:
+* **src**: Directory where all the application modules are located. Each module is composed of controller, services and dto's.
+* **src/test**: Contains unit tests
+* **infrastructure**: Contains the terraform scripts
+* **test**: Contains the e2e tests.
+* **./docker-compose-yaml**: Docker file to deploy each of the services needed to run the application. The variables required for each service should be reviewed, mainly the AWS variables for ***zef_terraform***.
+
+To create the first user, project and currency, the migration must be executed. To do this, locally and with the appropriate environment variables for the DB, run the command:
+```bash
+$ npm run migration:run
+```
+This command create a user with credentials: "owner@zef.com", "password".
+
+## Documentation
+
+If the application is running, you can go to [Swagger documentation](http://localhost:3000/api) to access the endpoint documentation, and use it for testing.
 
 ## Installation
 
@@ -45,6 +44,13 @@ $ npm run start:dev
 $ npm run start:prod
 ```
 
+
+## Running the app on Docker
+```bash
+# development
+docker compose up -d
+```
+
 ## Test
 
 ```bash
@@ -58,16 +64,21 @@ $ npm run test:e2e
 $ npm run test:cov
 ```
 
-## Support
+## Infrastructure
 
-Nest is an MIT-licensed open source project. It can grow thanks to the sponsors and support by the amazing backers. If you'd like to join them, please [read more here](https://docs.nestjs.com/support).
+```bash
+# Initialize
+$ docker compose run --rm zef_terraform init
 
-## Stay in touch
+# Validate the configuration
+$ docker compose run --rm zef_terraform validate
 
-- Author - [Kamil Myśliwiec](https://kamilmysliwiec.com)
-- Website - [https://nestjs.com](https://nestjs.com/)
-- Twitter - [@nestframework](https://twitter.com/nestframework)
+# Generate the plan
+$ docker compose run --rm zef_terraform plan
 
+# Apply
+$ docker compose run --rm zef_terraform apply
+```
 ## License
 
-Nest is [MIT licensed](LICENSE).
+ZEF is *MIT licensed*.

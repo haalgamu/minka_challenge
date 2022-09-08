@@ -5,11 +5,10 @@ WORKDIR /zef
 COPY ./package.json ./
 COPY ./package-lock.json ./
 
+COPY . .
+
 RUN npm install
 #RUN npm ci --only=production
-
-COPY . .
 RUN npm run build
-RUN npm run migration:run
 CMD ["npm", "run", "start:prod"]
 EXPOSE 3000

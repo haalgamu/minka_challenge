@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Project } from 'src/entities';
+import { Project } from '../entities';
 import { Repository } from 'typeorm';
 import { ResourceService } from '../helpers/generic_resource.service';
 
