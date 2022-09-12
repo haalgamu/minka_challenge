@@ -16,7 +16,6 @@ async function bootstrap() {
       'The ZEF API description. The credentials to owner are: (owner@zef.com, password)',
     )
     .setVersion('1.0')
-    .addTag('zef', 'zkn')
     .addBearerAuth({
       description: 'Default JWT Authorization',
       type: 'http',

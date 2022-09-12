@@ -10,6 +10,10 @@ describe('UsersController', () => {
   let usersController: UsersController;
   let usersService: UsersService;
   let encrypter: Encrypter;
+  const authUser: any = {
+    id: 1,
+    isOwner: true,
+  };
   let createUserDto: CreateUserDto = {
     email: '',
     password: '',
@@ -56,7 +60,11 @@ describe('UsersController', () => {
         .spyOn(usersService, 'update')
         .mockResolvedValueOnce(new User());
 
-      const user = await usersController.update('1', createUserDto);
+      const user = await usersController.update(
+        { user: authUser },
+        '1',
+        createUserDto,
+      );
 
       expect(userUpdateFun).toBeCalledTimes(1);
       expect(user).toBeInstanceOf(User);
@@ -69,7 +77,7 @@ describe('UsersController', () => {
         .spyOn(usersService, 'remove')
         .mockResolvedValueOnce(new User());
 
-      const user = await usersController.remove('1');
+      const user = await usersController.remove({ user: authUser }, '1');
 
       expect(userRemoveFun).toBeCalledTimes(1);
       expect(user).toBeDefined();
@@ -82,7 +90,7 @@ describe('UsersController', () => {
         .spyOn(usersService, 'findOne')
         .mockResolvedValueOnce(new User());
 
-      const user = await usersController.findOne('1');
+      const user = await usersController.findOne({ user: authUser }, '1');
 
       expect(userFindOneFun).toBeCalledTimes(1);
       expect(user).toBeDefined();

@@ -1,4 +1,11 @@
-import { Controller, Request, Post, Body, UseGuards } from '@nestjs/common';
+import {
+  Controller,
+  Request,
+  Post,
+  Body,
+  UseGuards,
+  Get,
+} from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
 import { AuthService } from './auth.service';
 import {
@@ -9,7 +16,10 @@ import {
   ApiProperty,
 } from '@nestjs/swagger';
 import { LoginDto } from './dto/login.dto';
+import { CreateUserDto } from '../users/dto/create-user.dto';
 
+@ApiBearerAuth()
+@ApiTags('auth')
 @Controller('auth')
 export class AuthController {
   constructor(private readonly authService: AuthService) {}
@@ -19,5 +29,18 @@ export class AuthController {
   @ApiOperation({ summary: 'Do login' })
   login(@Request() req, @Body() body: LoginDto) {
     return this.authService.login(req.user);
+  }
+
+  @Get('/me')
+  @UseGuards(AuthGuard('jwt'))
+  @ApiOperation({ summary: 'Me' })
+  me(@Request() req) {
+    return req.user;
+  }
+
+  @Post('/register_member')
+  @ApiOperation({ summary: 'Create a new user/member' })
+  create(@Body() createUserDto: CreateUserDto) {
+    return this.authService.registerNewUser(createUserDto);
   }
 }

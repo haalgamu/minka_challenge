@@ -15,15 +15,17 @@ import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { User } from '../entities';
 import { AuthGuard } from '@nestjs/passport';
-import { ApiBearerAuth, ApiOperation } from '@nestjs/swagger';
+import { ApiBearerAuth, ApiOperation, ApiTags } from '@nestjs/swagger';
 import { IsOwnerGuard } from '../auth/is-owner.guard';
 @ApiBearerAuth()
+@ApiTags('user')
 @UseGuards(AuthGuard('jwt'))
 @Controller('users')
 export class UsersController {
   constructor(private readonly usersService: UsersService) {}
 
   @Post()
+  @UseGuards(IsOwnerGuard)
   @ApiOperation({ summary: 'Create a new user/member' })
   create(@Body() createUserDto: CreateUserDto) {
     return this.usersService.create(createUserDto);

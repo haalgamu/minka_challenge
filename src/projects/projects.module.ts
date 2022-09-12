@@ -3,9 +3,10 @@ import { ProjectsService } from './projects.service';
 import { ProjectsController } from './projects.controller';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { Project } from '../entities';
+import { CurrenciesModule } from '../currencies/currencies.module';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([Project])],
+  imports: [CurrenciesModule, TypeOrmModule.forFeature([Project])],
   controllers: [ProjectsController],
   providers: [ProjectsService],
 })

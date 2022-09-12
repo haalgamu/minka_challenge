@@ -1,16 +1,21 @@
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
-import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
 import { User } from '../entities';
-import { Encrypter } from '../helpers/encrypt.service';
+import { Repository } from 'typeorm';
 
+export interface ResourceOptions {
+  authUser?: User;
+}
 export class ResourceService {
   constructor(
     private entityRepository: Repository<any>,
     protected entityLabel,
   ) {}
 
-  async create(data: any): Promise<any> {
+  public buildEntityInstance(data: any): any {
+    return this.entityRepository.create(data);
+  }
+
+  async create(data: any, options?: ResourceOptions): Promise<any> {
     try {
       const result: any = await this.entityRepository.save(data);
       return result;
@@ -25,8 +30,8 @@ export class ResourceService {
     }
   }
 
-  findAll(): Promise<any[]> {
-    return this.entityRepository.find();
+  findAll(findOptions?: any, options?: ResourceOptions): Promise<any[]> {
+    return this.entityRepository.find(findOptions);
   }
 
   async findOne(id: number): Promise<any> {

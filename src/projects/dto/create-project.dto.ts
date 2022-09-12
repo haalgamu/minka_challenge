@@ -10,4 +10,8 @@ export class CreateProjectDto {
   @IsString()
   @IsNotEmpty()
   description: string;
+
+  @IsString()
+  @IsNotEmpty()
+  currencyCod: string;
 }

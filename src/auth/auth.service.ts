@@ -3,6 +3,7 @@ import { JwtService } from '@nestjs/jwt';
 import { User } from '../entities';
 import { UsersService } from '../users/users.service';
 import { Encrypter } from '../helpers/encrypt.service';
+import { CreateUserDto } from 'src/users/dto/create-user.dto';
 
 export interface LoginResponse {
   token: string;
@@ -20,10 +21,12 @@ export class AuthService {
     email: string,
     password: string,
   ): Promise<User | null> {
-    const user = await this.userService.findByEmail(email);
-    if (await this.encrypter.compare(password, user.password)) {
-      return user;
-    }
+    try {
+      const user = await this.userService.findByEmail(email);
+      if (await this.encrypter.compare(password, user.password)) {
+        return user;
+      }
+    } catch (e) {}
     return null;
   }
 
@@ -38,5 +41,9 @@ export class AuthService {
     return {
       token: await this.createToken(user),
     };
+  }
+
+  async registerNewUser(createUserDto: CreateUserDto): Promise<User> {
+    return this.userService.create(createUserDto);
   }
 }

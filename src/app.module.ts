@@ -5,6 +5,7 @@ import Entities from './entities';
 import { UsersModule } from './users/users.module';
 import { AuthModule } from './auth/auth.module';
 import { ProjectsModule } from './projects/projects.module';
+import { CurrenciesModule } from './currencies/currencies.module';
 @Module({
   imports: [
     TypeOrmModule.forRoot({
@@ -20,6 +21,7 @@ import { ProjectsModule } from './projects/projects.module';
     UsersModule,
     AuthModule,
     ProjectsModule,
+    CurrenciesModule,
   ],
   controllers: [AppController],
   providers: [],
