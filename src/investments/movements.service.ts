@@ -25,7 +25,7 @@ export class MovementsService extends ResourceService {
   async findAll(
     findOptions: FindOptions,
     options?: ResourceOptions,
-  ): Promise<Project[]> {
+  ): Promise<Movement[]> {
     const params: any = {
       relations: {
         user: true,

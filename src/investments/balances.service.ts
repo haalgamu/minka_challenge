@@ -46,10 +46,11 @@ export class BalancesService extends ResourceService {
     }
   }
 
-  async findAll(options?: ResourceOptions): Promise<Project[]> {
+  async findAll(options?: ResourceOptions): Promise<Balance[]> {
     const params: any = {
       relations: {
         user: true,
+        project: true,
       },
       where: {},
     };

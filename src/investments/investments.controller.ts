@@ -16,8 +16,13 @@ import { CreateMovementDto } from './dto/create-movement.dto';
 import { MovementsService } from './movements.service';
 import { BalancesService } from './balances.service';
 import { SQSService } from '../aws/sqs.service';
-import { OPERATIONS } from 'src/entities/movements.entity';
+import { Movement, OPERATIONS } from '../entities/movements.entity';
 import { ConfigService } from '@nestjs/config';
+import { Balance } from 'src/entities';
+
+interface SQSResponse {
+  message: string
+};
 
 @ApiBearerAuth()
 @ApiTags('investments')
@@ -42,39 +47,47 @@ export class InvestmentsController {
 
   @Post('/invest/:projectId')
   @ApiOperation({ summary: 'Invest to a project' })
-  invest(
+  async invest(
     @Request() request,
     @Param('projectId') projectId: number,
     @Body() createMovementDto: CreateMovementDto,
-  ) {
-    return this.sqsService.sendMessage(this.configService.get('AWS').SQS.URL, {
+  ):Promise<SQSResponse>  {
+    await this.sqsService.sendMessage(this.configService.get('AWS').SQS.URL, {
       operation: OPERATIONS.DEPOSIT,
       projectId,
       userId: request.user.id,
       amount: createMovementDto.amount,
       at: new Date().toString(),
     });
+
+    return {
+      message: "Processing investment."
+    }
   }
 
   @Post('/withdraw/:projectId')
   @ApiOperation({ summary: 'Withdraw of a project' })
-  withdraw(
+  async withdraw(
     @Request() request,
     @Param('projectId') projectId: number,
     @Body() createMovementDto: CreateMovementDto,
-  ) {
-    return this.sqsService.sendMessage(this.configService.get('AWS').SQS.URL, {
+  ):Promise<SQSResponse> {
+    await this.sqsService.sendMessage(this.configService.get('AWS').SQS.URL, {
       operation: OPERATIONS.WITHDRAWAL,
       projectId,
       userId: request.user.id,
       amount: createMovementDto.amount,
       at: new Date().toString(),
     });
+
+    return {
+      message: "Processing withdrawal."
+    }
   }
 
   @Get('/movements/:projectId')
   @ApiOperation({ summary: 'Get a list of movements/transaction of a project' })
-  findAllMovement(@Request() request, @Param('projectId') projectId: number) {
+  findAllMovement(@Request() request, @Param('projectId') projectId: number):Promise<Movement[]> {
     return this.movementService.findAll(
       {
         projectId,
@@ -85,7 +98,7 @@ export class InvestmentsController {
 
   @Get('/balance')
   @ApiOperation({ summary: 'Get a list of balances' })
-  findAllBalance(@Request() request) {
+  findAllBalance(@Request() request):Promise<Balance[]> {
     return this.balanceService.findAll({ authUser: request.user });
   }
 }

@@ -20,8 +20,17 @@ The steps for running in the local environment are:
 2. ```$ docker compose run --rm zef_terraform plan ```
 3. ```$ docker compose run --rm zef_terraform apply ```
 4. ```$ docker compose up -d```
+5. Run the migrations.
 
 Note: Add the local variables in **docker-compose.yaml** before following the above steps.
+
+To test the functionalities follow the steps below:
+1. Create 2 new users. /auth/register_member
+2. Create a project for each user. /projects
+3. Buy SKN coins for one user. /investments/buy/skn
+4. Invest. /investments/invest/{projectId}
+5. Withdraw. /investments/withdraw/{projectId}
+6. View a user's balances. /investments/balance
 
 ## Documentation
 
