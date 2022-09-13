@@ -1,8 +1,9 @@
 import { ValidationPipe } from '@nestjs/common';
-import { NestFactory } from '@nestjs/core';
+import { NestFactory, NestApplication } from '@nestjs/core';
 import { AppModule } from './app.module';
 import helmet from 'helmet';
 import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
+import { createSQSConsumer } from './aws/sqs-comsumer.factory';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
@@ -30,5 +31,8 @@ async function bootstrap() {
   await app.listen(parseInt(process.env.APP_PORT) || 4000);
 
   console.log(`Application is running on: ${await app.getUrl()}`);
+
+  const sqsConsumer = await createSQSConsumer();
+  sqsConsumer.start();
 }
 bootstrap();

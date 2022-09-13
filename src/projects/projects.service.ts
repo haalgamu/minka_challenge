@@ -21,7 +21,10 @@ export class ProjectsService extends ResourceService {
     super(projectRepository, 'Project');
   }
 
-  async create(data: CreateProjectDto, options: ResourceOptions): Promise<any> {
+  async create(
+    data: CreateProjectDto,
+    options: ResourceOptions,
+  ): Promise<Project> {
     let project = this.buildEntityInstance({
       ...data,
       user: options.authUser.id,
@@ -58,9 +61,8 @@ export class ProjectsService extends ResourceService {
     }
   }
 
-  async findAll(options?: ResourceOptions): Promise<Project[]> {
+  /* async findAll(options?: ResourceOptions): Promise<Project[]> {
     const findOptions: any = {};
-    console.log(options);
     if (options && options.authUser! && !options.authUser.isOwner) {
       findOptions.relations = {
         user: true,
@@ -71,7 +73,7 @@ export class ProjectsService extends ResourceService {
     }
 
     return super.findAll(findOptions);
-  }
+  } */
 
   async remove(id: number): Promise<any> {
     try {
@@ -104,6 +106,29 @@ export class ProjectsService extends ResourceService {
           error: e.detail,
         },
         HttpStatus.INTERNAL_SERVER_ERROR,
+      );
+    }
+  }
+
+  async findByCod(cod: string): Promise<Project> {
+    try {
+      const result = await this.projectRepository.findOneBy({ cod });
+      if (!result)
+        throw new HttpException(
+          {
+            status: HttpStatus.NOT_FOUND,
+            error: `${this.entityLabel} not found`,
+          },
+          HttpStatus.NOT_FOUND,
+        );
+      return result;
+    } catch (e) {
+      throw new HttpException(
+        {
+          status: e.status || HttpStatus.INTERNAL_SERVER_ERROR,
+          error: e.response?.error || e.message || e.detail,
+        },
+        e.status || HttpStatus.INTERNAL_SERVER_ERROR,
       );
     }
   }

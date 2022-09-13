@@ -23,6 +23,7 @@
   },
   "dependencies": {
     "@nestjs/common": "^9.0.0",
+    "@nestjs/config": "^2.2.0",
     "@nestjs/core": "^9.0.0",
     "@nestjs/jwt": "^9.0.0",
     "@nestjs/mapped-types": "*",
@@ -30,6 +31,7 @@
     "@nestjs/platform-express": "^9.0.0",
     "@nestjs/swagger": "^6.1.2",
     "@nestjs/typeorm": "^9.0.1",
+    "aws-sdk": "^2.1214.0",
     "bcrypt": "^5.0.1",
     "class-transformer": "^0.5.1",
     "class-validator": "^0.13.2",
@@ -43,9 +45,11 @@
     "reflect-metadata": "^0.1.13",
     "rimraf": "^3.0.2",
     "rxjs": "^7.2.0",
+    "sqs-consumer": "^5.7.0",
     "typeorm": "^0.3.9"
   },
   "devDependencies": {
+    "@aws-sdk/types": "^3.168.0",
     "@nestjs/cli": "^9.0.0",
     "@nestjs/schematics": "^9.0.0",
     "@nestjs/testing": "^9.0.0",
@@ -86,7 +90,12 @@
       "**/*.(t|j)s"
     ],
     "coverageDirectory": "../coverage",
-    "coveragePathIgnorePatterns": [".module.ts", "/src/migrations", ".strategy.ts", ".entity.ts"],
+    "coveragePathIgnorePatterns": [
+      ".module.ts",
+      "/src/migrations",
+      ".strategy.ts",
+      ".entity.ts"
+    ],
     "testEnvironment": "node"
   }
 }

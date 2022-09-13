@@ -1,16 +1,20 @@
 import { MigrationInterface, QueryRunner } from 'typeorm';
 import { Currency, Project, User } from '../entities';
 import { Encrypter } from '../helpers/encrypt.service';
+import configuration from '../config/configuration';
 
 export class InitRecords1662575536282 implements MigrationInterface {
   private readonly email = 'owner@zef.com';
-  private readonly zefProject = {
-    cod: 'ZEF',
+  private readonly zefProject: any = {
     description: 'Owner project',
   };
-  private readonly zknCurrency = {
-    cod: 'ZKN',
-  };
+  private readonly zknCurrency: any = {};
+
+  constructor() {
+    const conf = configuration();
+    this.zefProject.cod = conf.ZEF_PROJECT.COD;
+    this.zknCurrency.cod = conf.ZEF_PROJECT.CURRRENCY.COD;
+  }
 
   private async createOwner(queryRunner: QueryRunner): Promise<User> {
     let user = await queryRunner.manager.findOneBy(User, { email: this.email });

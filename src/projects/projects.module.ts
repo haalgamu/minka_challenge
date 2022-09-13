@@ -9,5 +9,6 @@ import { CurrenciesModule } from '../currencies/currencies.module';
   imports: [CurrenciesModule, TypeOrmModule.forFeature([Project])],
   controllers: [ProjectsController],
   providers: [ProjectsService],
+  exports: [ProjectsService],
 })
 export class ProjectsModule {}

@@ -32,6 +32,7 @@ export class ProjectsController {
   }
 
   @Get()
+  @ApiOperation({ summary: 'Get a list of projects' })
   findAll(@Request() request): Promise<Project[]> {
     return this.projectsService.findAll({
       authUser: request.user,
@@ -39,11 +40,13 @@ export class ProjectsController {
   }
 
   @Get(':id')
+  @ApiOperation({ summary: 'Get a project' })
   findOne(@Param('id') id: string): Promise<Project> {
     return this.projectsService.findOne(+id);
   }
 
   @Patch(':id')
+  @ApiOperation({ summary: 'Update a project' })
   update(
     @Param('id') id: string,
     @Body() updateProjectDto: UpdateProjectDto,
@@ -52,6 +55,7 @@ export class ProjectsController {
   }
 
   @Delete(':id')
+  @ApiOperation({ summary: 'Delete a project' })
   remove(@Param('id') id: string) {
     return this.projectsService.remove(+id);
   }

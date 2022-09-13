@@ -33,7 +33,7 @@ export class AuthController {
 
   @Get('/me')
   @UseGuards(AuthGuard('jwt'))
-  @ApiOperation({ summary: 'Me' })
+  @ApiOperation({ summary: 'Get the current authenticated user' })
   me(@Request() req) {
     return req.user;
   }

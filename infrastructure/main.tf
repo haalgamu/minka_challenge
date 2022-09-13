@@ -18,4 +18,5 @@ resource "aws_sqs_queue" "terraform_queue" {
   fifo_queue            = true
   deduplication_scope   = "messageGroup"
   fifo_throughput_limit = "perMessageGroupId"
+  content_based_deduplication = true
 }

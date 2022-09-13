@@ -30,4 +30,15 @@ export class Balance {
   @ManyToOne(() => Project, (project) => project.balances)
   @JoinColumn()
   project: Project;
+
+  withdraw(amount: number) {
+    if (this.amount < amount) {
+      throw new Error('Insufficient funds.');
+    }
+    this.amount = this.amount - amount;
+  }
+
+  deposit(amount: number) {
+    this.amount = this.amount + amount;
+  }
 }
