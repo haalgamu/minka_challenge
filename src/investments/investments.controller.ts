@@ -33,7 +33,7 @@ export class InvestmentsController {
   ) {}
 
   @Post('/buy/skn')
-  @ApiOperation({ summary: 'Invest to a project' })
+  @ApiOperation({ summary: 'Buy SKN coins' })
   deposit(@Request() request, @Body() createMovementDto: CreateMovementDto) {
     return this.investmentService.depositZKN(createMovementDto, {
       authUser: request.user,
@@ -73,7 +73,7 @@ export class InvestmentsController {
   }
 
   @Get('/movements/:projectId')
-  @ApiOperation({ summary: 'Get a list of movements of a project' })
+  @ApiOperation({ summary: 'Get a list of movements/transaction of a project' })
   findAllMovement(@Request() request, @Param('projectId') projectId: number) {
     return this.movementService.findAll(
       {
@@ -84,7 +84,7 @@ export class InvestmentsController {
   }
 
   @Get('/balance')
-  @ApiOperation({ summary: 'Get a list of movements of a project' })
+  @ApiOperation({ summary: 'Get a list of balances' })
   findAllBalance(@Request() request) {
     return this.balanceService.findAll({ authUser: request.user });
   }

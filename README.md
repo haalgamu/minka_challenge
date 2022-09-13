@@ -15,11 +15,13 @@ The directories are:
 * **test**: Contains the e2e tests.
 * **./docker-compose-yaml**: Docker file to deploy each of the services needed to run the application. The variables required for each service should be reviewed, mainly the AWS variables for ***zef_terraform***.
 
-To create the first user, project and currency, the migration must be executed. To do this, locally and with the appropriate environment variables for the DB, run the command:
-```bash
-$ npm run migration:run
-```
-This command create a user with credentials: "owner@zef.com", "password".
+The steps for running in the local environment are:
+1. ```$ docker compose run --rm zef_terraform init ```
+2. ```$ docker compose run --rm zef_terraform plan ```
+3. ```$ docker compose run --rm zef_terraform apply ```
+4. ```$ docker compose up -d```
+
+Note: Add the local variables in **docker-compose.yaml** before following the above steps.
 
 ## Documentation
 
@@ -30,6 +32,13 @@ If the application is running, you can go to [Swagger documentation](http://loca
 ```bash
 $ npm install
 ```
+
+## Migrations
+To create the first user, project and currency, the migration must be executed. To do this, locally and with the appropriate environment variables for the DB, run the command:
+```bash
+$ npm run migration:run
+```
+This command create a user with credentials: "owner@zef.com", "password".
 
 ## Running the app
 
